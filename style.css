@@ -1,0 +1,8 @@
+.conteiner-fluid{
+    background: url(img/15252.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.card img {
+    height: 35rem;
+}
