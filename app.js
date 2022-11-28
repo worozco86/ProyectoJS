@@ -10,7 +10,7 @@ function bienvenida(){alert("Bienvenido a la pagina de RomaChic "+ nombre + " " 
 bienvenida()
 
 //CONDICONALES//
-let prenda = prompt("Elija su prenda")
+let prenda = prompt("Elija su prenda (Vestido, Bikini, Pantalon, Chaleco")
 
 
 switch (prenda.toLowerCase()) {
@@ -24,40 +24,24 @@ switch (prenda.toLowerCase()) {
         alert (cliente + " " +"Usted selecciono Pantalon ($5.000)");
         break;
     case "chaleco":
-        alert (cliente + " " +"Usted selecciono Chaleco ($4.000");
+        alert (cliente + " " +"Usted selecciono Chaleco ($4.000)");
         break;
     default:
         alert ("por favor elija una prenda correcta")
         break;
 }
+let Precio = Number(prompt("ingrese el precio correcto"))
 
-let vestido = Number(prompt("ingrese su Saldo"))
+if (Precio === 6000){
+    alert ("Gracias por comprar Vestido")
+} else if(Precio === 3000){
+    alert("Gracias por comprar Bikini")}
+  else if (Precio === 5000){
+    alert ("Gracias por comprar Pantalon")
+} else if (Precio === 4000){
+    alert("Gracias por comprar Chaleco")
+    
+} else{ alert("Por favor, ingrese precio correcto")}
 
-if (vestido >= 6000){
-    alert ("Gracias por su compra")
-} else{
-    alert("Su saldo no es suficiente")
-};
-
-let bikini = Number(prompt("ingrese su Saldo"))
-
-if (vestido >= 3000){
-    alert ("Gracias por su compra")
-} else{
-    alert("Su saldo no es suficiente")
-};
-
-let pantalon = Number(prompt("ingrese su Saldo"))
-
-if (vestido >= 5000){
-    alert ("Gracias por su compra")
-} else{
-    alert("Su saldo no es suficiente")
-};
-let chaleco = Number(prompt("ingrese su Saldo"))
-
-if (chaleco >= 2000){
-    alert ("Gracias por su compra")
-} else{
-    alert("Su saldo no es suficiente")
-};
+function Cierre(){alert("Muchas gracias por visitar nuestra pagina, lo esperamos pronto!!! " + nombre + " " + apellido)}
+Cierre()
