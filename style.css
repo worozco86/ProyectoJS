@@ -1,8 +1,14 @@
-.conteiner-fluid{
+body {
     background: url(img/cora.jpg);
     background-size: cover;
     background-position: center;
 }
 .card img {
     height: 35rem;
+}
+.datosCliente{
+     color:aliceblue;
+     background-color: black;
+     margin-top: 5px;
+
 }
