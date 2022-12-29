@@ -1,6 +1,13 @@
 // VARIABLES //
 let nombreForm = document.querySelector("#nombre");
 let correoForm = document.querySelector("#correo");
+const productos = [{ id: 1, producto: "Vestido", precio: 6000},
+                   { id: 1, producto: "Bikini", precio: 3000},
+                   { id: 1, producto: "Pantalon", precio: 5000},
+                   { id: 1, producto: "Chaleco", precio: 4000}]
+const talles = ["S", "M", "L", "XL"]
+localStorage.setItem("listaTalles", JSON.stringify(talles));
+localStorage.setItem("listaProductos", JSON.stringify(productos));
 
 nombreForm.addEventListener("input", function () {
     if (nombreForm.value === "") {
