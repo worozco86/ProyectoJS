@@ -1,9 +1,10 @@
 // VARIABLES //
 let nombreForm = document.querySelector("#nombre");
 let correoForm = document.querySelector("#correo");
-let carrito = []
+let carrito = JSON.parse(localStorage.getItem("carrito")) || []
+
 // Archivos LocalStorage //
-const carritoLocal = JSON.parse(localStorage.getItem("carrito"));
+
 const addCart = () => {localStorage.setItem("carrito", JSON.stringify(carrito));};
 
 nombreForm.addEventListener("input", function () {
@@ -66,7 +67,7 @@ function agregarCarrito(id, data) {
 	const prendaElejida = data.find((el) => el.id === parseInt(id));
 	console.log(prendaElejida);
 	carrito.push(prendaElejida);
-  addCart();
+    addCart();
 
 }
 
@@ -74,8 +75,10 @@ function agregarCarrito(id, data) {
 const suCarrito = document.getElementById("carrito");
 
 if(localStorage.getItem("carrito")){
+	
 	console.log("esta guardado")
 }else{ 
 	console.log("no esta guardado");
-	localStorage.setItem
+	localStorage.setItem("carrito",JSON.stringify(carrito));
 }
+
