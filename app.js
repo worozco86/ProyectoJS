@@ -82,3 +82,52 @@ if(localStorage.getItem("carrito")){
 	localStorage.setItem("carrito",JSON.stringify(carrito));
 }
 
+let productosUnicos = [];
+
+carrito.forEach(item => {
+	if (productosUnicos[item.id]) {
+	productosUnicos[item.id].cantidad++;
+	} else {
+	productosUnicos[item.id] = {...item, cantidad: 1};
+	}
+	});
+
+	console.log(productosUnicos)
+
+// PINTAR CARRITO EN EL DOM //
+
+const productosUnicosContainer = document.querySelector("#productosUnicos");
+
+function mostrarProductos () {
+    productosUnicos.forEach((producto) => {
+        const div = document.createElement("div");
+        div.innerHTML += `
+		<div class="d-flex justify-content-between align-items-center p-2">
+		<div class="col-3 ">
+          <img src="${producto.img}" style="width: 10rem;" alt="">
+		</div>
+        <div class="col-2 p-3 text-center border">
+              <h3>PRODUCTO: ${producto.nombre}</h3>
+              <h3>PRECIO: $${producto.precio}</h3>
+			  <h3>CANTIDAD: ${producto.cantidad}</h3>
+        </div>
+		<div class="justify-content-between p-5">
+          <button type="button" class="btn btn-danger">ELIMINAR</button>
+          <button type="button" class="btn btn-success">AGREGAR</button>
+		</div>
+        </div>
+		<hr>
+		` 
+        productosUnicosContainer.appendChild(div);
+    });
+}
+mostrarProductos();
+
+// FUNCION BOTON "BORRAR TODO"
+const borrarTodo = document.querySelector("#borrar-todo");
+borrarTodo.addEventListener("click", function(){
+    
+	document.querySelector("#productosUnicos").innerHTML = "";
+});
+
+
