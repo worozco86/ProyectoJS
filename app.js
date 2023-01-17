@@ -92,7 +92,6 @@ carrito.forEach(item => {
 	}
 	});
 
-	console.log(productosUnicos)
 
 // PINTAR CARRITO EN EL DOM //
 
@@ -112,22 +111,35 @@ function mostrarProductos () {
 			  <h3>CANTIDAD: ${producto.cantidad}</h3>
         </div>
 		<div class="justify-content-between p-5">
-          <button type="button" class="btn btn-danger">ELIMINAR</button>
+          <button type="button" class="btn btn-danger" id="${producto.id}">ELIMINAR</button>;
           <button type="button" class="btn btn-success">AGREGAR</button>
-		</div>
+
         </div>
 		<hr>
 		` 
         productosUnicosContainer.appendChild(div);
-    });
+ });
+ const eliminarCantidad = document.querySelectorAll(".btn-danger");
+ eliminarCantidad.forEach((el) => {
+ el.addEventListener("click", (e) => {
+ const id = e.target.id;
+ productosUnicos = productosUnicos.filter((producto) => producto.id != id);
+ localStorage.setItem("carrito", JSON.stringify(productosUnicos));
+ productosUnicosContainer.innerHTML = "";
+mostrarProductos();
+
+});
+});
 }
 mostrarProductos();
 
-// FUNCION BOTON "BORRAR TODO"
+
+
+// FUNCION BOTON "LIMPIAR TODO"
 const borrarTodo = document.querySelector("#borrar-todo");
 borrarTodo.addEventListener("click", function(){
     
 	document.querySelector("#productosUnicos").innerHTML = "";
+	carrito = []
+	addCart()
 });
-
-
