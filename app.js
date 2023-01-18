@@ -1,11 +1,12 @@
 // VARIABLES //
 let nombreForm = document.querySelector("#nombre");
 let correoForm = document.querySelector("#correo");
+const cartDiv = document.querySelector("#productosUnicos")
 let carrito = JSON.parse(localStorage.getItem("carrito")) || []
 
 // Archivos LocalStorage //
 
-const addCart = () => {localStorage.setItem("carrito", JSON.stringify(carrito));};
+const addCart = () => { localStorage.setItem("carrito", JSON.stringify(carrito)); };
 
 nombreForm.addEventListener("input", function () {
 	if (nombreForm.value === "") {
@@ -54,53 +55,50 @@ const mostrarProd = async () => {
 	btnComprar.forEach((el) => {
 		el.addEventListener("click", (e) => {
 			agregarCarrito(e.target.id, data);
+			mostrarProductos();
 		});
 	});
 };
 
 mostrarProd();
 
+
 function agregarCarrito(id, data) {
-	console.log(data);
-	console.log(id);
+	const cart = JSON.parse(localStorage.getItem("carrito") || [])
 
-	const prendaElejida = data.find((el) => el.id === parseInt(id));
-	console.log(prendaElejida);
-	carrito.push(prendaElejida);
-    addCart();
+	const prendaElegida = data.find((el) => el.id === parseInt(id));
+	const indexCart = cart.findIndex(el => el.id === parseInt(id))
 
+	if (indexCart === -1) {
+		carrito.push({ ...prendaElegida, cantidad: 1 })
+	} else {
+		console.log(indexCart)
+		carrito[indexCart].cantidad++
+	}
+
+	addCart();
 }
 
 
 const suCarrito = document.getElementById("carrito");
 
-if(localStorage.getItem("carrito")){
-	
+if (localStorage.getItem("carrito")) {
+
 	console.log("esta guardado")
-}else{ 
+} else {
 	console.log("no esta guardado");
-	localStorage.setItem("carrito",JSON.stringify(carrito));
+	localStorage.setItem("carrito", JSON.stringify(carrito));
 }
-
-let productosUnicos = [];
-
-carrito.forEach(item => {
-	if (productosUnicos[item.id]) {
-	productosUnicos[item.id].cantidad++;
-	} else {
-	productosUnicos[item.id] = {...item, cantidad: 1};
-	}
-	});
-
 
 // PINTAR CARRITO EN EL DOM //
 
-const productosUnicosContainer = document.querySelector("#productosUnicos");
-
-function mostrarProductos () {
-    productosUnicos.forEach((producto) => {
-        const div = document.createElement("div");
-        div.innerHTML += `
+function mostrarProductos() {
+	const container = document.createElement("div");
+	container.id = "cart"
+	const oldCart = document.querySelector("#cart")
+	carrito.forEach((producto) => {
+		const div = document.createElement("div");
+		div.innerHTML += `
 		<div class="d-flex justify-content-between align-items-center p-2">
 		<div class="col-3 ">
           <img src="${producto.img}" style="width: 10rem;" alt="">
@@ -111,25 +109,44 @@ function mostrarProductos () {
 			  <h3>CANTIDAD: ${producto.cantidad}</h3>
         </div>
 		<div class="justify-content-between p-5">
-          <button type="button" class="btn btn-danger" id="${producto.id}">ELIMINAR</button>;
-          <button type="button" class="btn btn-success">AGREGAR</button>
+          <button type="button" class="btn btn-danger" id="${producto.id}">ELIMINAR</button>
+          <button type="button" class="btn btn-success" id="${producto.id}">AGREGAR</button>
 
         </div>
 		<hr>
-		` 
-        productosUnicosContainer.appendChild(div);
- });
- const eliminarCantidad = document.querySelectorAll(".btn-danger");
- eliminarCantidad.forEach((el) => {
- el.addEventListener("click", (e) => {
- const id = e.target.id;
- productosUnicos = productosUnicos.filter((producto) => producto.id != id);
- localStorage.setItem("carrito", JSON.stringify(productosUnicos));
- productosUnicosContainer.innerHTML = "";
-mostrarProductos();
+		`
+		container.appendChild(div);
+	});
+	if(oldCart) cartDiv.removeChild(oldCart)
+	cartDiv.appendChild(container)
+	const eliminarCantidad = container.querySelectorAll(".btn-danger");
+	const agregarCantidad = container.querySelectorAll(".btn-success");
+	eliminarCantidad.forEach((el) => {
+		el.addEventListener("click", (e) => {
+			const id = e.target.id;
+			cartIndex = carrito.findIndex((el) => el.id === +id)
+			if(carrito[cartIndex].cantidad === 1){
+				carrito.splice(cartIndex, 1)
+			} else {
+				carrito[cartIndex].cantidad--
+			}
 
-});
-});
+			localStorage.setItem("carrito", JSON.stringify(carrito));
+			mostrarProductos();
+		});
+	});
+
+	agregarCantidad.forEach((el) => {
+		el.addEventListener("click", (e) => {
+			const id = e.target.id;
+			console.log(id);
+			cartIndex = carrito.findIndex((el) => el.id === +id)
+			carrito[cartIndex].cantidad++
+
+			localStorage.setItem("carrito", JSON.stringify(carrito));
+			mostrarProductos();
+		});
+	});
 }
 mostrarProductos();
 
@@ -137,8 +154,8 @@ mostrarProductos();
 
 // FUNCION BOTON "LIMPIAR TODO"
 const borrarTodo = document.querySelector("#borrar-todo");
-borrarTodo.addEventListener("click", function(){
-    
+borrarTodo.addEventListener("click", function () {
+
 	document.querySelector("#productosUnicos").innerHTML = "";
 	carrito = []
 	addCart()
