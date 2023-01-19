@@ -170,7 +170,7 @@ mostrarProductos();
 
 function mostrarPrecioFinal(){
 	const calcularTotal = document.getElementById("precioTotal");
-	calcularTotal.innerText = "$"+ carrito.reduce((total, producto) => total + +producto.precio * +producto.cantidad,0)
+	calcularTotal.innerText = "$"+ carrito.reduce((total, producto) => total + + producto.precio * +producto.cantidad,0)
   }
 
 // FUNCION BOTON "LIMPIAR TODO"
@@ -181,3 +181,16 @@ borrarTodo.addEventListener("click", function () {
 	carrito = []
 	addCart()
 });
+
+// SWEET ALERT //
+
+const btn = document.querySelector('#comprar')
+btn.addEventListener('click', () => {
+
+    Swal.fire({
+        title: 'Compra realizada con exito!',
+        text: 'Estamos procesando tu pedido!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+})
+})
