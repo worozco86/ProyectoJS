@@ -74,9 +74,16 @@ function agregarCarrito(id, data) {
 	} else {
 		console.log(indexCart)
 		carrito[indexCart].cantidad++
-	}
-
+	};
+	function calcularTotal(carrito) {
+		let total = 0;
+		carrito.forEach(producto => {
+		  total += producto.precio * producto.cantidad;
+		});
+		return total;
+	  }
 	addCart();
+	calcularTotal(carrito);
 }
 
 
@@ -105,7 +112,7 @@ function mostrarProductos() {
 		</div>
         <div class="col-2 p-3 text-center border">
               <h3>PRODUCTO: ${producto.nombre}</h3>
-              <h3>PRECIO: $${producto.precio}</h3>
+              <h3>PRECIO: $${producto.precio * producto.cantidad}</h3>
 			  <h3>CANTIDAD: ${producto.cantidad}</h3>
         </div>
 		<div class="justify-content-between p-5">
@@ -132,6 +139,8 @@ function mostrarProductos() {
 			}
 
 			localStorage.setItem("carrito", JSON.stringify(carrito));
+
+			
 			mostrarProductos();
 		});
 	});
@@ -141,16 +150,28 @@ function mostrarProductos() {
 			const id = e.target.id;
 			console.log(id);
 			cartIndex = carrito.findIndex((el) => el.id === +id)
-			carrito[cartIndex].cantidad++
+			carrito[cartIndex].cantidad++ 
 
 			localStorage.setItem("carrito", JSON.stringify(carrito));
 			mostrarProductos();
+	
+
 		});
 	});
+	mostrarPrecioFinal();
 }
+
+
 mostrarProductos();
 
 
+
+// FUNCION SUMAR TOTAL //
+
+function mostrarPrecioFinal(){
+	const calcularTotal = document.getElementById("precioTotal");
+	calcularTotal.innerText = "$"+ carrito.reduce((total, producto) => total + +producto.precio * +producto.cantidad,0)
+  }
 
 // FUNCION BOTON "LIMPIAR TODO"
 const borrarTodo = document.querySelector("#borrar-todo");
